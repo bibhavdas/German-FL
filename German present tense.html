@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>German Class Notes - 19.01.2026</title>
+    <style>
+        :root {
+            --german-black: #1a1a1a;
+            --german-red: #DD0000;
+            --german-gold: #FFCE00;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-color: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #050505;
+            color: var(--text-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- Liquid Background Animation --- */
+        .background-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.7;
+            animation: float 10s infinite alternate ease-in-out;
+        }
+
+        .blob-1 {
+            width: 50vw;
+            height: 50vw;
+            background: var(--german-red);
+            top: -10%;
+            left: -10%;
+        }
+
+        .blob-2 {
+            width: 60vw;
+            height: 60vw;
+            background: var(--german-gold);
+            bottom: -10%;
+            right: -10%;
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            width: 40vw;
+            height: 40vw;
+            background: var(--german-red);
+            top: 40%;
+            right: 20%;
+            animation-duration: 15s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 50px); }
+        }
+
+        /* --- Glass Container --- */
+        .container {
+            /* Width adjustments to fill the screen */
+            width: 95%;
+            max-width: 1400px; /* Caps width only on very large ultra-wide monitors */
+            margin: 20px auto;
+            padding: 30px;
+            box-sizing: border-box; /* Ensures padding doesn't add to width */
+            
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* --- Typography --- */
+        h1, h2, h3 {
+            margin-top: 0;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--german-gold), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #ccc;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        h2 {
+            color: var(--german-gold);
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+
+        strong {
+            color: var(--german-gold);
+        }
+
+        .highlight {
+            color: var(--german-red);
+            font-weight: bold;
+        }
+
+        /* --- Cards & Lists --- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .glass-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        ul li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* --- Tables --- */
+        .table-wrapper {
+            overflow-x: auto; /* Allows scrolling on very small phones */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            min-width: 400px; /* Ensures table doesn't get too squished */
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            background: rgba(221, 0, 0, 0.2); /* Red tint */
+            color: var(--german-gold);
+            font-weight: bold;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- Pronoun Box --- */
+        .pronoun-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        
+        .pronoun-item {
+            background: rgba(255,255,255,0.05);
+            padding: 12px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* --- Mobile Optimization --- */
+        @media (max-width: 768px) {
+            .container {
+                width: 98%; /* Full width on mobile */
+                margin: 10px auto;
+                padding: 15px;
+            }
+
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; margin-top: 25px; }
+            
+            th, td {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr; /* Stack cards on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Liquid Background Elements -->
+    <div class="background-blob blob-1"></div>
+    <div class="background-blob blob-2"></div>
+    <div class="background-blob blob-3"></div>
+
+    <div class="container">
+        <h1>German Present Tense</h1>
+        <div class="subtitle">Class Summary &middot; Date: 19.01.2026</div>
+
+        <!-- Section 1: Vocabulary -->
+        <h2>1. The Vocabulary List</h2>
+        <p>We started with common verbs in their <strong>Infinitive</strong> form (the basic form ending in <em>-en</em>).</p>
+        
+        <div class="card-grid">
+            <div class="glass-card">
+                <h3>Verbs</h3>
+                <ul>
+                    <li><strong>Kaufen</strong> &rarr; To buy</li>
+                    <li><strong>Kommen</strong> &rarr; To come</li>
+                    <li><strong>Gehen</strong> &rarr; To go</li>
+                    <li><strong>Lernen</strong> &rarr; To learn</li>
+                    <li><strong>Wohnen</strong> &rarr; To live</li>
+                </ul>
+            </div>
+            <div class="glass-card">
+                <h3>More Verbs</h3>
+                <ul>
+                    <li><strong>Üben</strong> &rarr; To practice</li>
+                    <li><strong>Fragen</strong> &rarr; To ask</li>
+                    <li><strong>Machen</strong> &rarr; To make / do</li>
+                    <li><strong>Sagen</strong> &rarr; To say</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 2: Anatomy -->
+        <h2>2. Anatomy of a Verb</h2>
+        <p>To use a verb, you must split it into two parts.</p>
+        <div class="glass-card" style="text-align: center; font-size: 1.2rem;">
+            Example: <strong>Kaufen</strong> (To buy)<br><br>
+            <span style="color:var(--german-gold)">Kauf</span> <span style="color:var(--german-red)">-en</span><br>
+            <span style="font-size: 0.9rem; color: #ccc;">(Stem) &nbsp; &nbsp; (Ending)</span>
+        </div>
+
+        <!-- Section 3: Pronouns -->
+        <h2>3. The Pronouns</h2>
+        <p>Before conjugating, you need to know <em>who</em> is acting.</p>
+        <div class="pronoun-grid">
+            <div class="pronoun-item"><strong>ich</strong> (I)</div>
+            <div class="pronoun-item"><strong>wir</strong> (We)</div>
+            <div class="pronoun-item"><strong>du</strong> (You, informal)</div>
+            <div class="pronoun-item"><strong>ihr</strong> (You all, informal)</div>
+            <div class="pronoun-item"><strong>er / sie / es</strong> (He/She/It)</div>
+            <div class="pronoun-item"><strong>sie / Sie</strong> (They / You formal)</div>
+        </div>
+
+        <!-- Section 4: Rules -->
+        <h2>4. The Golden Rule (Regular Verbs)</h2>
+        <p>This is "Type Kaufen". You take the <strong>Stem</strong> and add a specific ending based on the person.</p>
+        
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pronoun</th>
+                        <th>Ending</th>
+                        <th>Example (Kaufen)</th>
+                        <th>Translation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ich</td>
+                        <td class="highlight">-e</td>
+                        <td>ich kauf<span class="highlight">e</span></td>
+                        <td>I buy</td>
+                    </tr>
+                    <tr>
+                        <td>du</td>
+                        <td class="highlight">-st</td>
+                        <td>du kauf<span class="highlight">st</span></td>
+                        <td>You buy</td>
+                    </tr>
+                    <tr>
+                        <td>er / sie / es</td>
+                        <td class="highlight">-t</td>
+                        <td>er kauf<span class="highlight">t</span></td>
+                        <td>He buys</td>
+                    </tr>
+                    <tr>
+                        <td>wir</td>
+                        <td class="highlight">-en</td>
+                        <td>wir kauf<span class="highlight">en</span></td>
+                        <td>We buy</td>
+                    </tr>
+                    <tr>
+                        <td>ihr</td>
+                        <td class="highlight">-t</td>
+                        <td>ihr kauf<span class="highlight">t</span></td>
+                        <td>You all buy</td>
+                    </tr>
+                    <tr>
+                        <td>sie / Sie</td>
+                        <td class="highlight">-en</td>
+                        <td>sie kauf<span class="highlight">en</span></td>
+                        <td>They buy</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section 5: Grammar Trap -->
+        <div class="glass-card" style="border-left: 5px solid var(--german-red);">
+            <h3 style="color: var(--german-red); margin-top: 0;">⚠️ Important Grammar Rule</h3>
+            <p><strong>There is no "Continuous" tense in German.</strong></p>
+            <p>In English, we say "I go" and "I am going".<br>
+            In German, both are simply: <strong>Ich gehe</strong>.</p>
+            <p><em>Never say "Ich bin gehe". That is wrong!</em></p>
+        </div>
+
+        <!-- Section 6: Sentences -->
+        <h2>5. Sentence Examples</h2>
+        <div class="glass-card">
+            <ul>
+                <li>I buy a pen &rarr; <strong>Ich kaufe einen Kuli.</strong></li>
+                <li>I come to Kolkata &rarr; <strong>Ich komme nach Kolkata.</strong></li>
+                <li>I ask you &rarr; <strong>Ich frage dich.</strong></li>
+                <li>I live in Howrah &rarr; <strong>Ich wohne in Howrah.</strong></li>
+            </ul>
+        </div>
+
+        <!-- Section 7: Special Case -->
+        <h2>6. Special Case: "Type Antworten"</h2>
+        <p>If the verb stem ends in <strong>-t</strong> or <strong>-d</strong> (like <em>Antwor<strong>t</strong>en</em>, <em>Arbei<strong>t</strong>en</em>, <em>Fin<strong>d</strong>en</em>), we add an extra <strong>'e'</strong> to make it easier to pronounce.</p>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pronoun</th>
+                        <th>Action</th>
+                        <th>Example (Antworten)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ich</td>
+                        <td>Normal</td>
+                        <td>ich antwort<strong>e</strong></td>
+                    </tr>
+                    <tr>
+                        <td>du</td>
+                        <td>Add <span class="highlight">e</span> + st</td>
+                        <td>du antwort<span class="highlight">e</span>st</td>
+                    </tr>
+                    <tr>
+                        <td>er / sie / es</td>
+                        <td>Add <span class="highlight">e</span> + t</td>
+                        <td>er antwort<span class="highlight">e</span>t</td>
+                    </tr>
+                    <tr>
+                        <td>wir</td>
+                        <td>Normal</td>
+                        <td>wir antwort<strong>en</strong></td>
+                    </tr>
+                    <tr>
+                        <td>ihr</td>
+                        <td>Add <span class="highlight">e</span> + t</td>
+                        <td>ihr antwort<span class="highlight">e</span>t</td>
+                    </tr>
+                    <tr>
+                        <td>sie / Sie</td>
+                        <td>Normal</td>
+                        <td>sie antwort<strong>en</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            Based on Class Notes from 19.01.2026 &middot; Keep practicing!
+        </div>
+    </div>
+
+</body>
+</html>

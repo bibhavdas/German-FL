@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>German Verb Conjugations</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           1. CSS VARIABLES (THEMING ENGINE)
+           ========================================= */
+        :root {
+            /* DEFAULT: PLAIN SHEET THEME */
+            --bg-color: #e9e9e9;
+            --page-color: #fdfbf7;
+            --font-family: 'Kalam', cursive;
+            --text-question: #2a1a0a;
+            --text-answer: #0033a0;
+            --text-important: #b30000;
+            --line-color: rgba(164, 176, 190, 0.4);
+            --margin-line: rgba(255, 153, 153, 0.6);
+            --header-decoration: none;
+            --toggle-bg: #333;
+            --toggle-text: #fff;
+            --card-bg: transparent; 
+            --card-border: none;
+            --card-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* NEON NIGHT WORLD THEME */
+        body.night-mode {
+            --bg-color: #000;
+            --page-color: transparent;
+            --font-family: 'Orbitron', sans-serif;
+            --text-question: #e0f7fa;
+            --text-answer: #00e5ff;
+            --text-important: #ff40c1;
+            --line-color: transparent;
+            --margin-line: transparent;
+            --header-decoration: drop-shadow(0 0 10px #00e5ff);
+            --toggle-bg: #fff;
+            --toggle-text: #333;
+            --card-bg: rgba(0, 229, 255, 0.1);
+            --card-border: 1px solid rgba(0, 229, 255, 0.3);
+            --card-shadow: 0 0 25px rgba(0, 229, 255, 0.2);
+        }
+
+        /* =========================================
+           2. GLOBAL & BACKGROUND STYLES
+           ========================================= */
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            transition: background-color 0.5s ease;
+            overflow-x: hidden;
+        }
+
+        .night-background {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
+            background-size: 550px 550px, 350px 350px;
+            background-position: 0 0, 40px 60px;
+            animation: move-stars 200s linear infinite;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        @keyframes move-stars {
+            from {background-position: 0 0, 40px 60px;}
+            to {background-position: -10000px 5000px, -10000px 5000px;}
+        }
+        body.night-mode .night-background { opacity: 1; }
+
+        /* =========================================
+           3. HEADER & TOGGLE
+           ========================================= */
+        header { text-align: center; position: relative; margin-bottom: 20px; }
+        
+        h1 {
+            color: var(--text-question);
+            font-size: 2.5rem; margin: 10px 0;
+            filter: var(--header-decoration);
+            transition: all 0.5s ease;
+        }
+        body.night-mode h1 { text-shadow: 0 0 5px #fff, 0 0 10px var(--text-answer), 0 0 20px var(--text-answer); }
+
+        .toggle-btn {
+            position: fixed; top: 20px; right: 20px;
+            padding: 10px 20px; background: var(--toggle-bg);
+            color: var(--toggle-text); border: none;
+            border-radius: 30px; cursor: pointer;
+            font-family: sans-serif; font-weight: bold;
+            z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        .toggle-btn:hover { transform: scale(1.05); }
+
+        /* =========================================
+           4. MAIN CONTENT AREA (THE PAGE)
+           ========================================= */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative; 
+            background-color: var(--page-color);
+            box-shadow: var(--card-shadow);
+            border-radius: 3px;
+            background-image: repeating-linear-gradient(
+                transparent, transparent 30px,
+                var(--line-color) 31px
+            );
+            background-size: 100% 31px;
+            padding: 30px 30px 30px 50px; 
+            transition: background-color 0.5s ease, box-shadow 0.5s ease;
+        }
+        
+        .container::before {
+            content: ''; position: absolute;
+            left: 40px; top: 0; bottom: 0;
+            width: 2px; background-color: var(--margin-line);
+            transition: background-color 0.5s ease;
+        }
+
+        body.night-mode .container { background-image: none; }
+
+        .section-title {
+            color: var(--text-important);
+            border-bottom: 2px solid var(--text-important);
+            display: inline-block; margin-top: 40px;
+            margin-bottom: 20px; font-size: 1.8rem;
+        }
+        body.night-mode .section-title { text-shadow: 0 0 5px var(--text-important), 0 0 10px var(--text-important); }
+
+        .verb-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: var(--card-border);
+            border-radius: 15px; 
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            transition: all 0.5s ease;
+        }
+        
+        .verb-title, .verb-meaning, .conjugation-row {
+            transition: all 0.5s ease;
+            line-height: 31px;
+        }
+
+        .verb-title {
+            font-size: 1.4rem; color: var(--text-question);
+            font-weight: 700; margin-bottom: 5px; text-decoration: underline;
+        }
+        body.night-mode .verb-title { text-shadow: 0 0 5px var(--text-question), 0 0 10px var(--text-question); }
+
+        .verb-meaning { color: var(--text-question); font-size: 1rem; margin-bottom: 15px; font-style: italic; }
+
+        /* UPDATED: Flexbox row for perfect alignment */
+        .conjugation-row { 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 1.1rem; 
+        }
+
+        .verb-word { color: var(--text-answer); }
+        body.night-mode .verb-word { text-shadow: 0 0 5px var(--text-answer), 0 0 10px var(--text-answer); }
+
+        .pronoun { color: var(--text-question); }
+
+        .changed { color: var(--text-important); font-weight: bold; }
+        body.night-mode .changed { text-shadow: 0 0 5px var(--text-important), 0 0 10px var(--text-important); }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            body { padding: 5px; }
+            .verb-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
+            .toggle-btn { top: auto; bottom: 15px; right: 15px; }
+            .container { padding: 15px 15px 15px 30px; }
+            .container::before { left: 20px; }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="night-background"></div>
+
+    <button class="toggle-btn" onclick="toggleTheme()">✨ Switch Theme</button>
+
+    <header><h1>German Class Notes</h1></header>
+
+    <div class="container">
+        <div id="verb-sections"></div>
+    </div>
+
+    <script>
+        const verbData = [
+            {
+                title: "Type 1: Regular Verbs",
+                verbs: [
+                    { name: "Kaufen", meaning: "To buy", conjugation: ["kaufe", "kaufst", "kauft", "kaufen", "kauft", "kaufen"] },
+                    { name: "Kommen", meaning: "To come", conjugation: ["komme", "kommst", "kommt", "kommen", "kommt", "kommen"] },
+                    { name: "Gehen", meaning: "To go", conjugation: ["gehe", "gehst", "geht", "gehen", "geht", "gehen"] }
+                ]
+            },
+            {
+                title: "Type 2: Ends in T/D/N (+ extra 'e')",
+                verbs: [
+                    { name: "Antworten", meaning: "To answer", conjugation: ["antworte", "antwort<span class='changed'>e</span>st", "antwort<span class='changed'>e</span>t", "antworten", "antwort<span class='changed'>e</span>t", "antworten"] },
+                    { name: "Warten", meaning: "To wait", conjugation: ["warte", "wart<span class='changed'>e</span>st", "wart<span class='changed'>e</span>t", "warten", "wart<span class='changed'>e</span>t", "warten"] },
+                    { name: "Arbeiten", meaning: "To work", conjugation: ["arbeite", "arbeit<span class='changed'>e</span>st", "arbeit<span class='changed'>e</span>t", "arbeiten", "arbeit<span class='changed'>e</span>t", "arbeiten"] }
+                ]
+            },
+            {
+                title: "Type 3: Strong Verbs (a &rarr; ä)",
+                verbs: [
+                    { name: "Fallen", meaning: "To fall", conjugation: ["falle", {pre:"f", change:"ä", post:"llst"}, {pre:"f", change:"ä", post:"llt"}, "fallen", "fallt", "fallen"] },
+                    { name: "Tragen", meaning: "To carry", conjugation: ["trage", {pre:"tr", change:"ä", post:"gst"}, {pre:"tr", change:"ä", post:"gt"}, "tragen", "tragt", "tragen"] },
+                    { name: "Halten", meaning: "To hold", conjugation: ["halte", {pre:"h", change:"ä", post:"ltst"}, {pre:"h", change:"ä", post:"lt"}, "halten", "haltet", "halten"] }
+                ]
+            },
+            {
+                title: "Type 4: Strong Verbs (e &rarr; i)",
+                verbs: [{ name: "Essen", meaning: "To eat", conjugation: ["esse", {pre:"", change:"i", post:"sst"}, {pre:"", change:"i", post:"sst"}, "essen", "esst", "essen"] }]
+            },
+            {
+                title: "Type 5: Strong Verbs (e &rarr; ie)",
+                verbs: [
+                    { name: "Sehen", meaning: "To see", conjugation: ["sehe", {pre:"s", change:"ie", post:"hst"}, {pre:"s", change:"ie", post:"ht"}, "sehen", "seht", "sehen"] },
+                    { name: "Lesen", meaning: "To read", conjugation: ["lese", {pre:"l", change:"ie", post:"st"}, {pre:"l", change:"ie", post:"st"}, "lesen", "lest", "lesen"] }
+                ]
+            },
+            {
+                title: "Type 6: Strong Verbs (au &rarr; äu)",
+                verbs: [
+                    { name: "Laufen", meaning: "To run", conjugation: ["laufe", {pre:"l", change:"äu", post:"fst"}, {pre:"l", change:"äu", post:"ft"}, "laufen", "lauft", "laufen"] },
+                    { name: "Saufen", meaning: "To guzzle", conjugation: ["saufe", {pre:"s", change:"äu", post:"fst"}, {pre:"s", change:"äu", post:"ft"}, "saufen", "sauft", "saufen"] }
+                ]
+            },
+            {
+                title: "Type 7: Stoßen (o &rarr; ö)",
+                verbs: [{ name: "Stoßen", meaning: "To push", conjugation: ["stoße", {pre:"st", change:"ö", post:"ßt"}, {pre:"st", change:"ö", post:"ßt"}, "stoßen", "stoßt", "stoßen"] }]
+            }
+        ];
+
+        const pronouns = ["ich", "du", "er/sie/es", "wir", "ihr", "sie/Sie"];
+
+        function buildContent() {
+            const container = document.getElementById('verb-sections');
+            let html = '';
+
+            verbData.forEach(section => {
+                html += `<h2 class="section-title">${section.title}</h2>`;
+                html += '<div class="verb-grid">';
+                
+                section.verbs.forEach(verb => {
+                    html += `<div class="card">
+                                <div class="verb-title">${verb.name}</div>
+                                <div class="verb-meaning">${verb.meaning}</div>`;
+                    
+                    verb.conjugation.forEach((c, index) => {
+                        let wordHtml = '';
+                        // Check if conjugation is an object (for strong verbs) or a simple string
+                        if (typeof c === 'object' && c !== null) {
+                            wordHtml = `${c.pre}<span class='changed'>${c.change}</span>${c.post}`;
+                        } else {
+                            wordHtml = c;
+                        }
+                        
+                        // **FIX IS HERE**: This new structure wraps the verb in its own div
+                        if(pronouns[index]) {
+                            html += `<div class="conjugation-row">
+                                        <span class="pronoun">${pronouns[index]}</span>
+                                        <div class="verb-word">${wordHtml}</div>
+                                     </div>`;
+                        }
+                    });
+                    html += `</div>`;
+                });
+                
+                html += '</div>';
+            });
+            container.innerHTML = html;
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('night-mode');
+        }
+        
+        buildContent();
+    </script>
+</body>
+</html>

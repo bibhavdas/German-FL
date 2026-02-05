@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>German Study Notes</title>
+    <style>
+        :root {
+            --classroom-bg: #fdfdfd;
+            --desk-wood: #d2b48c;
+            --accent-blue: #007bff;
+            --accent-red: #dc3545;
+            --accent-gold: #ffc107;
+            --text-dark: #2d3436;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--classroom-bg);
+            /* Classroom Grid Effect */
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            margin-top: 50px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+            border-bottom: 4px solid var(--accent-red);
+        }
+
+        p {
+            color: var(--accent-blue);
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* --- Classroom Desk Environment --- */
+        .workspace {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            margin-top: 50px;
+        }
+
+        .folder-btn {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.3s ease, filter 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .folder-btn:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+        }
+
+        .raw-folder {
+            left: 15%;
+            top: 20%;
+        }
+
+        .digital-folder {
+            right: 15%;
+            top: 20%;
+        }
+
+        .icon-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .raw-color { background-color: var(--accent-red); color: white; }
+        .digital-color { background-color: var(--accent-gold); color: white; }
+
+        .label {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            background: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* --- Floating Windows (Modals) --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(5px);
+            z-index: 10;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-window {
+            background: var(--glass-bg);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            position: relative;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px; right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .modal-title {
+            margin-top: 0;
+            color: var(--accent-blue);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .file-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0;
+        }
+
+        .file-item {
+            margin-bottom: 12px;
+        }
+
+        .file-link {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            text-decoration: none;
+            color: var(--text-dark);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .file-link:hover {
+            border-color: var(--accent-blue);
+            background-color: #f0f7ff;
+            transform: translateX(5px);
+        }
+
+        .file-icon {
+            margin-right: 12px;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .folder-btn { position: relative; left: 0; right: 0; top: 0; margin-bottom: 40px; }
+            .workspace { height: auto; display: flex; flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>German Study Notes</h1>
+        <p>Interactive Classroom archive</p>
+    </header>
+
+    <div class="workspace">
+        <!-- Raw Files Object -->
+        <div class="folder-btn raw-folder" onclick="openModal('rawModal')">
+            <div class="icon-circle raw-color">📂</div>
+            <div class="label">Raw Notes</div>
+        </div>
+
+        <!-- Digitalised Files Object -->
+        <div class="folder-btn digital-folder" onclick="openModal('digitalModal')">
+            <div class="icon-circle digital-color">📑</div>
+            <div class="label">Digitalised</div>
+        </div>
+    </div>
+
+    <!-- Floating Window: Raw -->
+    <div id="rawModal" class="modal-overlay" onclick="closeModal(event, 'rawModal')">
+        <div class="modal-window">
+            <span class="close-btn" onclick="document.getElementById('rawModal').style.display='none'">&times;</span>
+            <h2 class="modal-title">Raw Study Files</h2>
+            <div class="file-list">
+                <a href="https://drive.google.com/file/d/1yGoia4RdV6d6UKjlauGQmZbfVALrl-2-/view?usp=sharing" class="file-link" target="_blank">
+                    <span class="file-icon">📄</span> Original Scanned PDF
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Window: Digitalised -->
+    <div id="digitalModal" class="modal-overlay" onclick="closeModal(event, 'digitalModal')">
+        <div class="modal-window">
+            <span class="close-btn" onclick="document.getElementById('digitalModal').style.display='none'">&times;</span>
+            <h2 class="modal-title">Digitalised Study Files</h2>
+            <div class="file-list">
+                
+                <a href="German present tense.html" class="file-link">
+                    <span class="file-icon">📖</span> Lesson 1: Regular Verbs
+                </a>
+                <a href="rules.html" class="file-link">
+                    <span class="file-icon">📏</span> Lesson 2: Strong Verbs
+                </a>
+				<a href="examples.html" class="file-link">
+                    <span class="file-icon">📝</span> Full Verb Conjugation List
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(event, id) {
+            if (event.target.id === id) {
+                document.getElementById(id).style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
