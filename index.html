@@ -6,98 +6,95 @@
     <title>German Study Notes</title>
     <style>
         :root {
-            --classroom-bg: #fdfdfd;
-            --desk-wood: #d2b48c;
+            --classroom-bg: #ffffff;
             --accent-blue: #007bff;
             --accent-red: #dc3545;
             --accent-gold: #ffc107;
             --text-dark: #2d3436;
-            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-bg: rgba(255, 255, 255, 0.98);
         }
 
         body, html {
             margin: 0;
             padding: 0;
-            height: 100%;
+            min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--classroom-bg);
-            /* Classroom Grid Effect */
+            /* Enhanced Classroom Grid Effect */
             background-image: 
                 linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-            overflow: hidden;
+            background-size: 30px 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         header {
-            margin-top: 50px;
+            margin-top: 40px;
+            padding: 0 20px;
             text-align: center;
             z-index: 1;
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: clamp(1.8rem, 8vw, 3rem); /* Responsive font size */
             color: var(--text-dark);
             text-transform: uppercase;
             letter-spacing: 2px;
             margin: 0;
-            border-bottom: 4px solid var(--accent-red);
+            border-bottom: 5px solid var(--accent-red);
+            display: inline-block;
         }
 
-        p {
+        header p {
             color: var(--accent-blue);
             font-weight: bold;
             margin-top: 10px;
+            font-size: 1.1rem;
         }
 
-        /* --- Classroom Desk Environment --- */
+        /* --- Workspace Layout (Mobile Friendly) --- */
         .workspace {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            height: 400px;
-            margin-top: 50px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            width: 90%;
+            max-width: 1000px;
+            margin: 50px 0;
+            padding-bottom: 40px;
         }
 
         .folder-btn {
-            position: absolute;
             cursor: pointer;
             transition: transform 0.3s ease, filter 0.3s;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
+            flex: 1;
+            min-width: 250px; /* Prevents them from getting too small */
+            max-width: 300px;
         }
 
-        .folder-btn:hover {
-            transform: scale(1.1);
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
-        }
-
-        .raw-folder {
-            left: 15%;
-            top: 20%;
-        }
-
-        .digital-folder {
-            right: 15%;
-            top: 20%;
+        .folder-btn:hover, .folder-btn:active {
+            transform: scale(1.05);
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
         }
 
         .icon-circle {
-            width: 120px;
-            height: 120px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 3rem;
-            margin-bottom: 15px;
-            border: 4px solid white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            border: 5px solid white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
         .raw-color { background-color: var(--accent-red); color: white; }
@@ -105,12 +102,13 @@
 
         .label {
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--text-dark);
             background: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 8px 20px;
+            border-radius: 25px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
         }
 
         /* --- Floating Windows (Modals) --- */
@@ -118,20 +116,22 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(5px);
-            z-index: 10;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
             justify-content: center;
             align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .modal-window {
             background: var(--glass-bg);
-            width: 90%;
+            width: 100%;
             max-width: 500px;
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
             position: relative;
             animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -143,57 +143,63 @@
 
         .close-btn {
             position: absolute;
-            top: 15px; right: 15px;
-            font-size: 1.5rem;
+            top: 15px; right: 20px;
+            font-size: 2rem;
             cursor: pointer;
-            color: #888;
+            color: #bbb;
+            line-height: 1;
         }
+
+        .close-btn:hover { color: var(--accent-red); }
 
         .modal-title {
             margin-top: 0;
             color: var(--accent-blue);
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
+            border-bottom: 3px solid #f0f0f0;
+            padding-bottom: 12px;
+            font-size: 1.5rem;
         }
 
         .file-list {
             list-style: none;
             padding: 0;
-            margin: 20px 0 0;
-        }
-
-        .file-item {
-            margin-bottom: 12px;
+            margin: 25px 0 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .file-link {
             display: flex;
             align-items: center;
-            padding: 15px;
+            padding: 18px;
             background: white;
             text-decoration: none;
             color: var(--text-dark);
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            border: 2px solid #eee;
+            border-radius: 12px;
             transition: all 0.2s;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 1.05rem;
         }
 
-        .file-link:hover {
+        .file-link:hover, .file-link:active {
             border-color: var(--accent-blue);
             background-color: #f0f7ff;
             transform: translateX(5px);
         }
 
         .file-icon {
-            margin-right: 12px;
-            font-size: 1.2rem;
+            margin-right: 15px;
+            font-size: 1.4rem;
         }
 
-        @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
-            .folder-btn { position: relative; left: 0; right: 0; top: 0; margin-bottom: 40px; }
-            .workspace { height: auto; display: flex; flex-direction: column; align-items: center; }
+        /* Mobile Adjustments */
+        @media (max-width: 480px) {
+            .workspace { gap: 30px; margin-top: 30px; }
+            .icon-circle { width: 110px; height: 110px; font-size: 3rem; }
+            .modal-window { padding: 20px; }
+            .file-link { padding: 15px; font-size: 1rem; }
         }
     </style>
 </head>
@@ -206,13 +212,13 @@
 
     <div class="workspace">
         <!-- Raw Files Object -->
-        <div class="folder-btn raw-folder" onclick="openModal('rawModal')">
+        <div class="folder-btn" onclick="openModal('rawModal')">
             <div class="icon-circle raw-color">📂</div>
             <div class="label">Raw Notes</div>
         </div>
 
         <!-- Digitalised Files Object -->
-        <div class="folder-btn digital-folder" onclick="openModal('digitalModal')">
+        <div class="folder-btn" onclick="openModal('digitalModal')">
             <div class="icon-circle digital-color">📑</div>
             <div class="label">Digitalised</div>
         </div>
@@ -237,7 +243,7 @@
             <span class="close-btn" onclick="document.getElementById('digitalModal').style.display='none'">&times;</span>
             <h2 class="modal-title">Digitalised Study Files</h2>
             <div class="file-list">
-                
+                <!-- Kept your specific ordering and descriptions here -->
                 <a href="German present tense.html" class="file-link">
                     <span class="file-icon">📖</span> Lesson 1: Regular Verbs
                 </a>
@@ -254,11 +260,15 @@
     <script>
         function openModal(id) {
             document.getElementById(id).style.display = 'flex';
+            // Disable scroll when modal is open
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal(event, id) {
             if (event.target.id === id) {
                 document.getElementById(id).style.display = 'none';
+                // Re-enable scroll when modal is closed
+                document.body.style.overflow = 'auto';
             }
         }
     </script>
